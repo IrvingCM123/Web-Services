@@ -1,0 +1,39 @@
+@api = http://localhost:2000/Servidor/MostrarUsuarios
+
+GET {{api}}
+Content-Type: application/json
+
+{
+    "Id": 1
+}
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+    "Nombre_Usuario": "José Jair",
+    "Apellido_Usuario": "Lopez Herrera",
+    "Correo_Electronico": "Prueba2@gmail.com",
+    "Contraseña": "Contraseña2"
+}
+
+###
+
+GET {{api}}/2
+
+###
+DELETE  {{api}}/2
+
+###
+GET {{api}}/count
+
+###
+PUT {{api}}/irving@gmail.com
+Content-Type: application/json
+
+{
+     "Nombre_Usuario": "José Jair",
+    "Apellido_Usuario": "Lopez Herrera",
+    "Correo_Electronico": "Prueba2@gmail.com",
+    "Contraseña": "Contraseña2424"
+}
