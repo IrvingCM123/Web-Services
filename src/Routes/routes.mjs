@@ -1,6 +1,9 @@
 import { response, Router } from "express";
 import fetch from "node-fetch"
+import axios from 'axios';
 const router = Router();
+var Datos = [];
+var Usuarios = [];
 
 // Enlazar páginas para navegar
 router.get("/", function (req, res) {
@@ -18,12 +21,6 @@ router.get("/MandarInfo", function (req, res) {
   res.render("MandarIinfo.ejs")
 })
 
-router.get("/Glosario", function (req, res) {
-  res.render("Glosario.ejs"), {
-    newInfo
-  }
-})
-
 router.get("/Prueba", function (req, res) {
   res.render("Prueba.ejs")
 })
@@ -33,16 +30,25 @@ router.get("/Mostrar", function (req, res) {
 })
 
 router.get("/Catalogo/Glosario", function (req, res) {
-  res.render("Glosario_A.ejs", {
-    Info
-  })
+  res.render("Glosario_A.ejs")
+})
+
+router.get("/Catalogo/Java", function (req, res) {
+  res.render("Pestaña_Programacion.ejs")
 })
 
 router.get("/", function (req, res) {
-  res.render('Mostrar.ejs', {
-    books
-  })
+  res.render('Mostrar.ejs')
 })
+
+router.get("/Ejemplo", function (req, res) {
+  res.render("Ejemplo.ejs", { Datos })
+})
+
+router.get("/Ejemplo2", function (req, res) {
+  res.render("Ejemplo2.ejs", { Usuarios })
+})
+
 
 
 /*  -----------------------------------------Rutas a la Api Rest----------------------------------------- */
@@ -60,46 +66,50 @@ router.get("/ProbarConexion", function (req, res) {
 
   try {
     fetch(url, OptionsGET)
-      .then(res => res.json())
-      .catch(error => res.send("Falló la conexión"))
-      .then(response => console.log("Success: ", response))
+      .then(response => console.log("Success: ", response.json))
+      .then(data => {
+        const json = JSON.parse(data);
+        console.log(json);
+      })
   } catch (error) {
     res.status(500);
     res.send(error.message);
   }
 })
-
 
 //Ver todos los usuarios registrados
-router.get("/MostrarUsuario", function (req, res) {
-  var url = 'http://localhost:2000/Servidor/MostrarUsuarios';
-
+router.post("/Ejemplo2", function (req, res) {
+  var url = 'http://localhost:2000/Servidor/MostrarUsuarios/';
   try {
-    fetch(url, OptionsGET)
-      .then(res => res.json())
-      .catch(error => res.send("Falló la conexión"))
-      .then(response => console.log("Success: ", response))
+    axios.post(url)
+      .then(function (res) {
+        console.log("Data: ", res.data);
+        Usuarios.push(res.data)
+      })
   } catch (error) {
     res.status(500);
     res.send(error.message);
   }
+  res.render("Ejemplo2", { Usuarios })
 })
 
-//Encontrar un usuarios en especifico
-router.get("/EncontrarUsuario", function (req, res) {
-  const { Id } = req.params
-  var url = 'http://localhost:2000/Servidor/MostrarUsuarios/' + Id;
 
+//Encontrar un usuarios en especifico
+router.post("/Ejemplo", function (req, res) {
+  var { Id } = req.body
+  var url = 'http://localhost:2000/Servidor/EncontrarUsuario/' + Id;
   try {
-    fetch(url, OptionsGET)
-      .then(res => res.json())
-      .catch(error => res.send(error, "Fallo de Conexión"))
-      .then(response => console.log("Success: ", response))
+    axios.post(url)
+      .then(function (res) {
+        console.log("Data: ", res.headers);
+        Datos.push(res.data)
+      })
   } catch (error) {
     res.status(500);
     res.send(error.message);
   }
-
+  res.render("Ejemplo", { Datos })
+  Datos = [];
 })
 
 //VerInformación
@@ -116,9 +126,7 @@ router.get("/Catalogo/Glosario", function (req, res) {
     res.status(500);
     res.send(error.message);
   }
-
-  let Info = res.json();
-
+  const Info = res.json();
 })
 
 
@@ -147,7 +155,6 @@ router.post("/RegistrarUsuario", function (req, res) {
   }
 })
 
-
 router.post("/MandarInfo", function (req, res) {
   const { letra, palabra, significado, imagen } = req.body
   var url = 'http://localhost:2000/Servidor/AltaInfo';
@@ -170,6 +177,8 @@ router.post("/MandarInfo", function (req, res) {
     res.status(500);
     res.message(error.message);
   }
+
+  res.render("MandarIinfo")
 })
 
 

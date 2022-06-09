@@ -1,38 +1,34 @@
-@api = http://localhost:2000/Servidor/MostrarUsuarios
+@api = http://localhost:2000/Servidor
 
-GET {{api}}
-Content-Type: application/json
+get {{api}}/MostrarUsuarios
 
-{
-    "Id": 1
-}
 ###
-POST {{api}}
+POST {{api}}/RegistrarUsuarios
 Content-Type: application/json
 
 {
     "Nombre_Usuario": "José Jair",
     "Apellido_Usuario": "Lopez Herrera",
-    "Correo_Electronico": "Prueba2@gmail.com",
+    "Correo_Electronico": "Prueba628@gmail.com",
     "Contraseña": "Contraseña2"
 }
 
 ###
 
-GET {{api}}/2
+post {{api}}/EncontrarUsuario/2
 
 ###
-DELETE  {{api}}/2
+DELETE  {{api}}/EliminarUsuario/1
 
 ###
-GET {{api}}/count
+GET {{api}}/ContarUsuarios
 
 ###
 PUT {{api}}/irving@gmail.com
 Content-Type: application/json
 
 {
-     "Nombre_Usuario": "José Jair",
+    "Nombre_Usuario": "José Jair",
     "Apellido_Usuario": "Lopez Herrera",
     "Correo_Electronico": "Prueba2@gmail.com",
     "Contraseña": "Contraseña2424"

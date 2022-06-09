@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Document</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+</head>
+
+<body>
+  <div>
+    <form method="POST" action="/Ejemplo">
+      <p> Cuenta: <input type="text" name="Id" id="Id" size="20"></p>
+      <p><input type="submit" value="Encontrar" id="Activar" onclick="recargar()"></p>
+    </form>
+  </div>
+
+
+
+  <div class="container p-4">
+    <div class="row" id="Info">
+
+      <%if (Datos.length>= 0) {%>
+        <% Datos.forEach(function(book) { %>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header">
+                <p>Id_Usuario: <%= book.IDUsuario %>
+                </p>
+              </div>
+
+              <div class="card-header">
+                <p>Nombre_Usuario: <%= book.Nombre_Usuario %>
+                </p>
+              </div>
+
+              <div class="card-header">
+                <p>Apellido_Usuario: <%= book.Apellido_Usuario %>
+                </p>
+              </div>
+
+              <div class="card-header">
+                <p>Correo_Electronico: <%= book.Correo_Electronico %>
+                </p>
+              </div>
+
+              <div class="card-header">
+                <p>Contraseña: <%= book.Contraseña %>
+                </p>
+              </div>
+
+              <div class="card-header">
+                <p>Fecha_Creación: <%= book.Fecha_Creacion %>
+                </p>
+              </div>
+            </div>
+          </div>
+          <%})%>
+
+            <%} else {%>
+              <p>No Books yet. <a href="/new-entry">Add A New One</a></p>
+              <%}%>
+    </div>
+
+</body>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+  var boton = document.getElementById('Activar');
+
+  boton.addEventListener('click', function () {
+    refresh.addEventListener('click', _ => {
+      location.reload("Ejemplo")
+    })
+  });
+
+</script>
+
+</html>
